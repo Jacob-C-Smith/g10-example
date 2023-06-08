@@ -16,3 +16,9 @@
 [submodule "extern/g10"]
 	path = extern/g10
 	url = https://github.com/Jacob-C-Smith/g10
+[submodule "extern/gport"]
+	path = extern/gport
+	url = https://github.com/Jacob-C-Smith/gport
+[submodule "extern/gschema"]
+	path = extern/gschema
+	url = https://github.com/Jacob-C-Smith/gschema
