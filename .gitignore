@@ -1,3 +1,22 @@
+build/array/
+build/dict/
+build/g10/
+build/json/
+build/queue/
+build/stack/
+build/.cmake/
+build/cmake_install.cmake
+build/CMakeCache.txt
+build/CMakeFiles
+extern/SDL2-*
+extern/SDL2_image-*
+extern/SDL2_net-*
+*.spv*
+*.ini*
+*.glsl*
+*.vert*
+*.frag*
+
 # Prerequisites
 *.d
 
@@ -50,3 +69,5 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
+build/compile_commands.json
+build/Makefile

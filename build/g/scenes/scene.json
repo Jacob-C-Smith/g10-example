@@ -1,0 +1,47 @@
+{
+    "$schema" : "https://raw.githubusercontent.com/Jacob-C-Smith/G10-Schema/main/scene-schema.json",
+    "name" : "scene",
+    "entities" :
+    [
+        {
+            "$schema" : "https://raw.githubusercontent.com/Jacob-C-Smith/G10-Schema/main/entity-schema.json",
+            "name" : {"entity 1":"a"},
+            "parts" :
+            [
+                {
+                    "$schema": "https://raw.githubusercontent.com/Jacob-C-Smith/G10-Schema/main/part-schema.json",
+                    "name": "part",
+                    "path": "g/scenes/part.ply"
+                }
+            ],
+            "shader" : "tri",
+            "transform" :
+            {
+                "$schema" : "https://raw.githubusercontent.com/Jacob-C-Smith/G10-Schema/main/transform-schema.json",
+                "location" : [ 0, 0, 0 ],
+                "rotation" : [ 0, 0, 0 ],
+                "scale"    : [ 1, 1, 1 ]
+            },
+            "rigid body" :
+            {
+                "$schema" : "https://raw.githubusercontent.com/Jacob-C-Smith/G10-Schema/main/rigid-body-schema.json",
+                "active" : true,
+                "mass" : 10,
+                "bounce" : 0.0,
+                "friction" : 0.5
+            }
+        }
+    ],
+    "cameras": [
+        {
+            "$schema" : "https://raw.githubusercontent.com/Jacob-C-Smith/G10-Schema/main/camera-schema.json",
+            "name" : "camera",
+            "front" : [ 1, 1, 1 ],
+            "up" : [ 0, 0, 1 ],
+            "location" : [ 5, 5, 1 ],
+            "far": 100.0,
+            "near": 0.01,
+            "fov": 89.99
+        }
+    ]
+}
