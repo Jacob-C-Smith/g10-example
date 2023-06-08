@@ -22,3 +22,12 @@
 [submodule "extern/gschema"]
 	path = extern/gschema
 	url = https://github.com/Jacob-C-Smith/gschema
+[submodule "extern/ui"]
+	path = extern/ui
+	url = https://github.com/Jacob-C-Smith/ui
+[submodule "extern/shader-compiler"]
+	path = extern/shader-compiler
+	url = https://github.com/Jacob-C-Smith/shader-compiler
+[submodule "extern/input-tool"]
+	path = extern/input-tool
+	url = https://github.com/Jacob-C-Smith/input-tool
