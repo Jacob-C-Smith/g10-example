@@ -31,3 +31,6 @@
 [submodule "extern/input-tool"]
 	path = extern/input-tool
 	url = https://github.com/Jacob-C-Smith/input-tool
+[submodule "extern/ai-tool"]
+	path = extern/ai-tool
+	url = https://github.com/Jacob-C-Smith/ai-tool
