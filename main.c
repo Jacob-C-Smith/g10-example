@@ -8,25 +8,22 @@
 #include <G10/GXEntity.h>
 
 // This gets called once a frame
-int user_code_callback ( GXInstance_t *p_instance )
-{
+int user_code_callback ( GXInstance_t *p_instance );
 
-    // Success
-    return 1;
-}
+// This gets called after g_init and before g_start_schedule
+int game_initialization ( GXInstance_t *p_instance );
+
+// Log some stuff
+int game_log ( GXInstance_t *p_instance );
 
 // Entry point
 int main ( int argc, const char *argv[] )
 {
 
     // Initialized data
-    GXInstance_t *p_instance        = 0;
-    GXEntity_t   *p_entity          = 0;
-    GXAI_t       *p_ai              = 0;
-    const char   *instance_path     = "g/debug client instance.json",
-                 *schedule_name     = "Client Schedule",
-                 *client_name       = 0;
-    bool          connect_to_server = false;
+    GXInstance_t *p_instance    = 0;
+    const char   *instance_path = "g/debug client instance.json",
+                 *schedule_name = "Client Schedule";
 
     // Parse command line arguments
     for ( size_t i = 0; i < argc; i++ )
@@ -43,40 +40,31 @@ int main ( int argc, const char *argv[] )
 
     // Create an instance
     if ( g_init(&p_instance, instance_path) == 0 )
-        goto failed_to_initialize_g10;
-   
-    /*
-    // Game setup
     {
 
-        // Set up input
-        {
-
-            // Initialized data
-            GXBind_t *exit_bind  = find_bind(p_instance->input, "QUIT"),
-                     *lock_mouse = find_bind(p_instance->input, "TOGGLE LOCK MOUSE"),
-                     *play_sound = find_bind(p_instance->input, "PLAY SOUND"),
-                     *mouse_up   = find_bind(p_instance->input, "MOUSE UP"),
-                     *mouse_down = find_bind(p_instance->input, "MOUSE DOWN");
-
-            // If quit is called, exit the game loop
-            register_bind_callback(exit_bind, &g_user_exit);
-
-            // Set up the camera controller
-            {
-                // First person controller
-                // camera_controller_from_camera(instance, instance->context.scene->active_camera);
-
-                // Third person controller. Thanks Aiden :)
-                // aps_3rdpersonctrl_from_camera_and_entity(instance, instance->active_scene->active_camera, get_entity(instance->active_scene, "player1"));
-            }
-
-        }
-
-        // Set up user code
-        add_user_code_callback(p_instance, &user_code_callback);
+        // Write an error message
+        (void)g_print_error("[G10] Failed to initialize G10 in call to function \"%s\"\n", __FUNCTION__);
+        
+        // Error
+        return EXIT_FAILURE;
     }
-    */
+    
+    // Set up the game itself
+    if ( game_initialization(p_instance) == 0 )
+    {
+
+        // Write an error message
+        (void)g_print_error("Failed to initialize game in call to function \"%s\"\n", __FUNCTION__);
+        
+        // Exit
+        (void)g_exit(&p_instance);
+
+        // Error
+        return EXIT_FAILURE;
+    }
+    
+    // Log some details about the game and G10
+    (void)game_log(p_instance);
 
     // Start the game
     (void)g_start_schedule(p_instance, schedule_name);
@@ -87,21 +75,63 @@ int main ( int argc, const char *argv[] )
     // Exit
     (void)g_exit(&p_instance);
 
-    // Return
+    // Success
     return EXIT_SUCCESS;
+}
 
-    // Error handling
+int user_code_callback ( GXInstance_t *p_instance )
+{
+    
+    // Whatever code you want
+    
+    // Success
+    return 1;
+}
+
+int game_initialization ( GXInstance_t *p_instance )
+{
+    
+    // Set the user code callback
+    if ( add_user_code_callback(p_instance, &user_code_callback) == 0 )
     {
+        g_print_error("Failed to set user code callback!\n");
 
-        // G10 Errors
-        {
-            failed_to_initialize_g10:
-                #ifndef NDEBUG
-                    g_print_error("[G10] Failed to initialize G10 in call to function \"%s\"\n", __FUNCTION__);
-                #endif
-
-                // Error
-                return EXIT_FAILURE;
-        }
+        return 0;
     }
+
+    // Set the binds
+    {
+        
+        // Initialized data
+        GXBind_t *p_quit = 0,
+                 *p_help = 0;
+
+        // Get the quit bind
+        g_find_bind(p_instance, "QUIT", &p_quit);
+
+        // Get the help bind
+        g_find_bind(p_instance, "HELP", &p_help);
+
+        // Set the user exit bind
+        register_bind_callback(p_quit, &g_user_exit);
+
+        // Set the help bind
+        register_bind_callback(p_help, &g_user_help);
+    }
+
+    // Success
+    return 1;
+}
+
+int game_log ( GXInstance_t *p_instance )
+{
+    
+    // Print the input
+    (void)input_info(p_instance->input);
+
+    // Flush standard out
+    (void)fflush(stdout);
+
+    // Success
+    return 1;
 }

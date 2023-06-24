@@ -39,6 +39,12 @@
             ]
         },
         {
+            "name" : "HELP",
+            "keys" : [
+                "F1"
+            ]
+        },
+        {
             "name" : "JUMP",
             "keys" : [
                 "SPACE"
